@@ -4,6 +4,7 @@ using System.Text;
 
 namespace MaquinaDeTuring
 {
+    // eba es genial y punto
     public class Maquina
     {
         public List<char> Cinta { get; set; }
