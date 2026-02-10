@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +17,7 @@ namespace MaquinaDeTuring
             SimboloGuardado=' ';
             EstadoActual = "Inicio";
         }
+        // Operaciones primitivas
         public void MoverDerecha()
         {
             EstadoActual = "MoverDerecha";
@@ -29,12 +30,13 @@ namespace MaquinaDeTuring
         public void MoverIzquierda()
         {
             EstadoActual = "MoverIzquierda";
+
             if (Cabezal == 0)
             {
-                Cinta.Insert(0, ' ');
-                Cabezal = 0;
+                EstadoActual = "Error: límite izquierdo alcanzado";
                 return;
             }
+
             Cabezal--;
         }
         public void Escribir(char simbolo)
@@ -43,14 +45,65 @@ namespace MaquinaDeTuring
             SimboloGuardado = simbolo;
             Cinta[Cabezal] = simbolo;
         }
-
-        public void Buscar()
+        // Operaciones compuestas
+        public void MoverDerechaHastaBlanco()
         {
-            Console.WriteLine("buscanding");
+            EstadoActual = "MoverDerechaHastaBlanco";
+
+            while (Cinta[Cabezal] != ' ')
+            {
+                MoverDerecha();
+            }
+        }
+        public bool MoverDerechaHasta(char simbolo)
+        {
+            EstadoActual = $"MoverDerechaHasta {simbolo}";
+            while (Cinta[Cabezal] != ' ')
+            {
+                if (Cinta[Cabezal] == simbolo)
+                    return true;
+                MoverDerecha();
+            }
+            return false; 
+        }
+        public bool MoverIzquierdaHasta(char simbolo)
+        {
+            EstadoActual = $"MoverIzquierdaHasta {simbolo}";
+            while (Cinta[Cabezal] != ' ')
+            {
+                if (Cinta[Cabezal] == simbolo)
+                    return true;
+                MoverIzquierda();
+            }
+            return false;
+        }
+        public bool BuscarPatron(string patron)
+        {
+            EstadoActual = $"BuscarPatron {patron}";
+            int pos = Cabezal;
+            while (pos + patron.Length <= Cinta.Count)
+            {
+                bool coincide = true;
+                for (int i = 0; i < patron.Length; i++)
+                {
+                    if (Cinta[pos + i] != patron[i])
+                    {
+                        coincide = false;
+                        break;
+                    }
+                }
+                if (coincide)
+                {
+                    Cabezal = pos;  
+                    return true;
+                }
+                pos++;
+            }
+            return false;
         }
         public void Borrar()
         {
-            Console.WriteLine("borranding");
+            Escribir(' ');
         }
 
 
