@@ -24,11 +24,13 @@ namespace MaquinaDeTuring
             Console.ReadKey();
             Console.Clear();
 
-            Console.WriteLine("porfavor ingresa la cadena");
-            string cadena = Console.ReadLine();
+            string cadena=LeerEntradaAlfabeto("Por favor ingresa la cadena inicial para la cinta (usa solo a, b, c, d o _):");
+            int posicion = LeerEnteroValido($"Ingrese la posición inicial del cabezal (0 a {cadena.Length -1}):",0, cadena.Length-1);
+            /*Console.WriteLine("porfavor ingresa la cadena");
+            string cadena = Console.ReadLine();*/
 
-            Console.WriteLine("Ingrese la posicion inicial del cabezal");
-            int posicion = int.Parse(Console.ReadLine());
+            /*Console.WriteLine("Ingrese la posicion inicial del cabezal");
+            int posicion = int.Parse(Console.ReadLine());*/
 
 
 
@@ -48,31 +50,74 @@ namespace MaquinaDeTuring
                     Console.WriteLine("1. Mover Derecha");
                     Console.WriteLine("2. Mover Izquierda");
                     Console.WriteLine("3. Escribir Símbolo");
-                    Console.WriteLine("4. Salir");
+                    Console.WriteLine("4. Buscar Símbolo");
+                    Console.WriteLine("5. Borrar Simbolo Actual");
+                    Console.WriteLine("10. Salir");
 
                     Console.Write("\n Opcion: ");
 
-                    string opcion = Console.ReadLine();
+                /*string opcion = Console.ReadLine();*/
+                int opcion = LeerEnteroValido("\nElija una opción (1-10):", 1, 10);
 
-                    switch (opcion)
+                switch (opcion)
                     {
-                        case "1":
+                        case 1:
                             m.MoverDerecha();
                             break;
-                        case "2":
+                        case 2:
                             m.MoverIzquierda();
                             break;
-                        case "3":
+                        case 3:
                             Console.Write("Ingrese el símbolo a escribir {a,b,c,d}: ");
                             char simbolo = Console.ReadKey().KeyChar;
                             m.Escribir(simbolo);
                             break;
-                        case "4":
+                        case 4:
+                            m.Buscar();
+                             break;
+                        case 5:
+                            m.Borrar();
+                            break;  
+                        case 10:
                             salir = true;
                             break;
                     }
                 }
             }
+
+        static string LeerEntradaAlfabeto(string mensaje)
+        {
+            string entrada = "";
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                entrada = Console.ReadLine().ToLower();
+
+                if (!string.IsNullOrEmpty(entrada) && entrada.All(c => "abcd_".Contains(c)))
+                    return entrada;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" -> ERROR: Solo caracteres {a, b, c, d} o '_'");
+                Console.ResetColor();
+            }
+        }
+
+        static int LeerEnteroValido(string mensaje, int min, int max)
+        {
+            int num;
+            while (true)
+            {
+                Console.WriteLine(mensaje);
+                if (int.TryParse(Console.ReadLine(), out num) && num >= min && num <= max)
+                    return num;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($" -> ERROR: Ingresa un número entre {min} y {max}.");
+                Console.ResetColor();
+            }
+        }
+
+
 
         static void DibujarInterfaz(Maquina m)
         {

@@ -44,5 +44,15 @@ namespace MaquinaDeTuring
             Cinta[Cabezal] = simbolo;
         }
 
+        public void Buscar()
+        {
+            Console.WriteLine("buscanding");
+        }
+        public void Borrar()
+        {
+            Console.WriteLine("borranding");
+        }
+
+
     }
 }
