@@ -4,14 +4,12 @@ using System.Text;
 
 namespace MaquinaDeTuring
 {
-    // eba es genial y punto
     public class Maquina
     {
         public List<char> Cinta { get; set; }
         public int Cabezal { get; set; }
         public char SimboloGuardado { get; set; }
         public string EstadoActual { get; set; }
-
         public Maquina(string cadenaInicial, int posicionInicial)
         {
             Cinta=cadenaInicial.ToList();
@@ -19,18 +17,32 @@ namespace MaquinaDeTuring
             SimboloGuardado=' ';
             EstadoActual = "Inicio";
         }
-
         public void MoverDerecha()
         {
-           Console.WriteLine("Moviendo el cabezal a la derecha...");
+            EstadoActual = "MoverDerecha";
+            if (Cabezal == Cinta.Count - 1)
+            {
+                Cinta.Add(' ');
+            }
+            Cabezal++;
         }
         public void MoverIzquierda()
         {
-            Console.WriteLine("Moviendo el cabezal a la izquierda...");
+            EstadoActual = "MoverIzquierda";
+            if (Cabezal == 0)
+            {
+                Cinta.Insert(0, ' ');
+                Cabezal = 0;
+                return;
+            }
+            Cabezal--;
         }
         public void Escribir(char simbolo)
         {
-            Console.WriteLine($"Escribiendo el símbolo '{simbolo}' en la cinta...");
+            EstadoActual = "Escribir";
+            SimboloGuardado = simbolo;
+            Cinta[Cabezal] = simbolo;
         }
-    } 
+
+    }
 }
