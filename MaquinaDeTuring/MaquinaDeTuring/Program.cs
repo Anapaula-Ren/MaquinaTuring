@@ -26,13 +26,6 @@ namespace MaquinaDeTuring
 
             string cadena=LeerEntradaAlfabeto("Por favor ingresa la cadena inicial para la cinta (usa solo a, b, c, d o _):");
             int posicion = LeerEnteroValido($"Ingrese la posición inicial del cabezal (0 a {cadena.Length -1}):",0, cadena.Length-1);
-            /*Console.WriteLine("porfavor ingresa la cadena");
-            string cadena = Console.ReadLine();*/
-
-            /*Console.WriteLine("Ingrese la posicion inicial del cabezal");
-            int posicion = int.Parse(Console.ReadLine());*/
-
-
 
             Maquina miMaquina = new Maquina(cadena, posicion);
             EjecutarMenu(miMaquina);
@@ -58,9 +51,6 @@ namespace MaquinaDeTuring
 
                     Console.WriteLine("10. Salir");
 
-                    //Console.Write("\n Opcion: ");
-
-                /*string opcion = Console.ReadLine();*/
                 int opcion = LeerEnteroValido("\nElija una opción (1-10):", 1, 10);
 
                 switch (opcion)
@@ -75,10 +65,6 @@ namespace MaquinaDeTuring
                             string s = LeerEntradaAlfabeto("Ingrese el símbolo (a,b,c,d,_)");
                             m.Escribir(s[0]);
                             break;
-                        /*Console.Write("Ingrese el símbolo a escribir {a,b,c,d}: ");
-                        char simbolo = Console.ReadKey().KeyChar;
-                        m.Escribir(simbolo);*/
-                        
                         case 4:
                         string busquedaDer = LeerEntradaAlfabeto("¿Qué símbolo quieres buscar hacia la derecha?");
                         bool encontradoDer = m.MoverDerechaHasta(busquedaDer[0]); // Le pasamos el char
@@ -91,8 +77,7 @@ namespace MaquinaDeTuring
                             Console.ReadKey();
                         }
                         break;
-                    /*m.MoverDerechaHasta();
-                    break;*/
+
                         case 5:
                         string busquedaIzq = LeerEntradaAlfabeto("¿Qué símbolo quieres buscar hacia la izquierda?");
                         bool encontradoIzq = m.MoverIzquierdaHasta(busquedaIzq[0]); // Le pasamos el char
@@ -131,31 +116,29 @@ namespace MaquinaDeTuring
                         {
                             Console.WriteLine("No se encontró el patrón.");
                             Console.ReadKey();
-                        }/*string miPatron = LeerEntradaAlfabeto("Ingrese el patrón (texto) que desea buscar en la cinta:");
-
-                        // 2. Pasamos el patrón como argumento al método
-                        bool encontradoPatron = m.BuscarPatron(miPatron);
-
-                        // 3. Feedback visual para el usuario
-                        if (encontradoPatron)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($" -> ¡Patrón '{miPatron}' encontrado! El cabezal se movió al inicio del patrón.");
                         }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($" -> El patrón '{miPatron}' no existe en la cinta.");
-                        }
-                        Console.ResetColor();
-                        Console.WriteLine("Presione cualquier tecla para continuar...");
-                        Console.ReadKey();*/
                         break;
                     case 7:
                         m.Borrar();
                         break;
                     case 8:
-                            Console.WriteLine("Work in progress :)");
+                            Console.WriteLine("¿Estás seguro de que quieres reiniciar la máquina? Se perderán los datos actuales. (s/n)");
+                            string res = Console.ReadLine().ToLower();
+                        if  (res == "s")
+                        {
+                            Console.Clear();
+                            string nuevaCadena= LeerEntradaAlfabeto("Ingrese la nueva cadena inicial (usa solo a, b, c, d o _):");
+                            int nuevaPosicion = LeerEnteroValido($"Ingrese la posición inicial del cabezal (0 a {nuevaCadena.Length - 1}):", 0, nuevaCadena.Length - 1);
+                            m = new Maquina(nuevaCadena, nuevaPosicion);
+                            salir = true;
+                            EjecutarMenu(m);
+                            return;
+                        }
+                        else
+                        {
+                            break;
+                        }
+
                         break;
 
                     case 10:
@@ -197,8 +180,6 @@ namespace MaquinaDeTuring
             }
         }
 
-
-
         static void DibujarInterfaz(Maquina m)
         {
             Console.WriteLine("\n========================================");
@@ -230,28 +211,7 @@ namespace MaquinaDeTuring
             Console.WriteLine("  ^");
             Console.WriteLine($"\n Memoria (Guardado): [{m.SimboloGuardado}]");
             Console.WriteLine("========================================");
-            /*Console.WriteLine("\n========================================");
-            Console.WriteLine($" ESTADO ACTUAL: {m.EstadoActual}");
-            Console.WriteLine("========================================");
-
-            // Dibujar celdas de la cinta
-            Console.Write(" CINTA: ");
-            foreach (char c in m.Cinta)
-            {
-                Console.Write($"[{c}] ");
-            }
-            Console.WriteLine();
-
-            // Dibujar el cabezal (la flechita)
-            Console.Write("        ");
-            for (int i = 0; i < m.Cabezal; i++)
-            {
-                Console.Write("    "); // Espacios para alinear con las celdas
-            }
-            Console.WriteLine("  ^");
-            Console.WriteLine($"\n Memoria (Guardado): [{m.SimboloGuardado}]");
-            Console.WriteLine("========================================");*/
+            
         }
-
     }
 }
