@@ -10,11 +10,14 @@ namespace MaquinaDeTuring
         public int Cabezal { get; set; }
         public char SimboloGuardado { get; set; }
         public string EstadoActual { get; set; }
+
+        public int ResaltadoInicio { get; set; }= -1;
+        public int ResaltadoFin { get; set; }= -1;
         public Maquina(string cadenaInicial, int posicionInicial)
         {
             Cinta=cadenaInicial.ToList();
             Cabezal=posicionInicial;
-            SimboloGuardado=' ';
+            SimboloGuardado='_';
             EstadoActual = "Inicio";
         }
         // Operaciones primitivas
@@ -23,7 +26,7 @@ namespace MaquinaDeTuring
             EstadoActual = "MoverDerecha";
             if (Cabezal == Cinta.Count - 1)
             {
-                Cinta.Add(' ');
+                Cinta.Add('_');
             }
             Cabezal++;
         }
@@ -46,17 +49,10 @@ namespace MaquinaDeTuring
             Cinta[Cabezal] = simbolo;
         }
         // Operaciones compuestas
-        public void MoverDerechaHastaBlanco()
-        {
-            EstadoActual = "MoverDerechaHastaBlanco";
-
-            while (Cinta[Cabezal] != ' ')
-            {
-                MoverDerecha();
-            }
-        }
+    
         public bool MoverDerechaHasta(char simbolo)
         {
+            MoverDerecha();
             EstadoActual = $"MoverDerechaHasta {simbolo}";
             while (Cinta[Cabezal] != ' ')
             {
@@ -68,6 +64,7 @@ namespace MaquinaDeTuring
         }
         public bool MoverIzquierdaHasta(char simbolo)
         {
+            MoverIzquierda();
             EstadoActual = $"MoverIzquierdaHasta {simbolo}";
             while (Cinta[Cabezal] != ' ')
             {
@@ -94,7 +91,7 @@ namespace MaquinaDeTuring
                 }
                 if (coincide)
                 {
-                    Cabezal = pos;  
+                    Cabezal = pos + patron.Length -1;  
                     return true;
                 }
                 pos++;
@@ -103,7 +100,7 @@ namespace MaquinaDeTuring
         }
         public void Borrar()
         {
-            Escribir(' ');
+            Escribir('_');
         }
 
 
