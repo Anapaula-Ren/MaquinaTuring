@@ -54,7 +54,7 @@ namespace MaquinaDeTuring
         {
             MoverDerecha();
             EstadoActual = $"MoverDerechaHasta {simbolo}";
-            while (Cinta[Cabezal] != ' ')
+            while (Cinta[Cabezal] != '_')
             {
                 if (Cinta[Cabezal] == simbolo)
                     return true;
@@ -66,7 +66,7 @@ namespace MaquinaDeTuring
         {
             MoverIzquierda();
             EstadoActual = $"MoverIzquierdaHasta {simbolo}";
-            while (Cinta[Cabezal] != ' ')
+            while (Cinta[Cabezal] != '_') 
             {
                 if (Cinta[Cabezal] == simbolo)
                     return true;

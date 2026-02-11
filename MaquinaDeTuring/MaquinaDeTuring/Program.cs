@@ -56,72 +56,113 @@ namespace MaquinaDeTuring
                 switch (opcion)
                     {
                         case 1:
+                        Console.WriteLine("estas seguro de querer moverte a la derecha? (s/n)");
+                        string res1 = Console.ReadLine().ToLower();
+                        if (res1 == "s")
+                        {
                             m.MoverDerecha();
                             break;
+                        }
+                        break;
                         case 2:
+                        Console.WriteLine("estas seguro de querer moverte a la izquierda? (s/n)");
+                        string res2 = Console.ReadLine().ToLower();
+                        if (res2 == "s")
+                        {
                             m.MoverIzquierda();
                             break;
+                        } break;
                         case 3:
+                        Console.WriteLine("¿Estás seguro de que quieres escribir un símbolo? Esto sobrescribirá el símbolo actual. (s/n)");
+                        string res3 = Console.ReadLine().ToLower();
+                        if (res3 == "s")
+                        {
                             string s = LeerEntradaAlfabeto("Ingrese el símbolo (a,b,c,d,_)");
                             m.Escribir(s[0]);
                             break;
+                        }
+                            break;
                         case 4:
-                        string busquedaDer = LeerEntradaAlfabeto("¿Qué símbolo quieres buscar hacia la derecha?");
-                        bool encontradoDer = m.MoverDerechaHasta(busquedaDer[0]); // Le pasamos el char
-
-                        if (!encontradoDer)
+                        Console.WriteLine("¿Estás seguro de que quieres buscar un símbolo hacia la derecha? (s/n)");
+                        string res4 = Console.ReadLine().ToLower();
+                        if (res4 == "s")
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(" -> No se encontró el símbolo hasta el final de la cinta.");
-                            Console.ResetColor();
-                            Console.ReadKey();
+                            string busquedaDer = LeerEntradaAlfabeto("¿Qué símbolo quieres buscar hacia la derecha?");
+                            bool encontradoDer = m.MoverDerechaHasta(busquedaDer[0]); // Le pasamos el char
+
+                            if (!encontradoDer)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine(" -> No se encontró el símbolo hasta el final de la cinta.");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                                
+                            }
+                            break;
                         }
                         break;
 
                         case 5:
-                        string busquedaIzq = LeerEntradaAlfabeto("¿Qué símbolo quieres buscar hacia la izquierda?");
-                        bool encontradoIzq = m.MoverIzquierdaHasta(busquedaIzq[0]); // Le pasamos el char
-
-                        if (!encontradoIzq)
+                        Console.WriteLine("¿Estás seguro de que quieres buscar un símbolo hacia la izquierda? (s/n)");
+                        string res5 = Console.ReadLine().ToLower();
+                        if (res5 == "s")
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(" -> No se encontró el símbolo en la cinta.");
-                            Console.ResetColor();
-                            Console.ReadKey();
+                                string busquedaIzq = LeerEntradaAlfabeto("¿Qué símbolo quieres buscar hacia la izquierda?");
+                                bool encontradoIzq = m.MoverIzquierdaHasta(busquedaIzq[0]); // Le pasamos el char
+
+                                if (!encontradoIzq)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine(" -> No se encontró el símbolo en la cinta.");
+                                    Console.ResetColor();
+                                    Console.ReadKey();
+                                }
+                                break;
                         }
                         break;
                     case 6:
-                        string patronABuscar = LeerEntradaAlfabeto("Ingresa el patrón a buscar:");
-
-                        if (m.BuscarPatron(patronABuscar))
+                        Console.WriteLine("¿Estás seguro de que quieres buscar un patrón? (s/n)");
+                        string res6 = Console.ReadLine().ToLower();
+                        if (res6 == "s")
                         {
-                            // Calculamos el rango basado en donde quedó el cabezal
-                            m.ResaltadoFin = m.Cabezal;
-                            m.ResaltadoInicio = m.Cabezal - (patronABuscar.Length - 1);
+                            string patronABuscar = LeerEntradaAlfabeto("Ingresa el patrón a buscar:");
 
-                            Console.Clear();
-                            DibujarInterfaz(m); // Dibujamos con el color activado
+                            if (m.BuscarPatron(patronABuscar))
+                            {
+                                // Calculamos el rango basado en donde quedó el cabezal
+                                m.ResaltadoFin = m.Cabezal;
+                                m.ResaltadoInicio = m.Cabezal - (patronABuscar.Length - 1);
 
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("\n -> ¡PATRÓN ENCONTRADO Y RESALTADO!");
-                            Console.ResetColor();
-                            Console.WriteLine("Presione cualquier tecla para continuar...");
-                            Console.ReadKey();
+                                Console.Clear();
+                                DibujarInterfaz(m); // Dibujamos con el color activado
 
-                            // QUITAMOS EL COLOR: Reseteamos para que la siguiente vez salga normal
-                            m.ResaltadoInicio = -1;
-                            m.ResaltadoFin = -1;
-                        }
-                        else
-                        {
-                            Console.WriteLine("No se encontró el patrón.");
-                            Console.ReadKey();
-                        }
-                        break;
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("\n -> ¡PATRÓN ENCONTRADO Y RESALTADO!");
+                                Console.ResetColor();
+                                Console.WriteLine("Presione cualquier tecla para continuar...");
+                                Console.ReadKey();
+
+                                // QUITAMOS EL COLOR: Reseteamos para que la siguiente vez salga normal
+                                m.ResaltadoInicio = -1;
+                                m.ResaltadoFin = -1;
+                            }
+                            else
+                            {
+                                Console.WriteLine("No se encontró el patrón.");
+                                Console.ReadKey();
+                            }
+                            break;
+                        }break;
                     case 7:
-                        m.Borrar();
-                        break;
+                        Console.WriteLine("¿Estás seguro de que quieres borrar el símbolo actual? (s/n)");
+                        string res7 = Console.ReadLine().ToLower();
+                        if (res7 == "s")
+                        {
+                            m.Borrar();
+                            break;
+                        }break;
                     case 8:
+
                             Console.WriteLine("¿Estás seguro de que quieres reiniciar la máquina? Se perderán los datos actuales. (s/n)");
                             string res = Console.ReadLine().ToLower();
                         if  (res == "s")
@@ -142,8 +183,16 @@ namespace MaquinaDeTuring
                         break;
 
                     case 10:
-                             salir = true;
-                             break;
+                        Console.WriteLine("estas seguro que deseas salir de ma Maquina de Turing?");
+                        string res10 = Console.ReadLine().ToLower();
+                        if (res10 == "s")
+                        {
+
+
+                            salir = true;
+                            break;
+                        }
+                        break;
                     }
                 }
             }
