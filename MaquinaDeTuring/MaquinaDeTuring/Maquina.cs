@@ -51,30 +51,29 @@ namespace MaquinaDeTuring
             Cinta[Cabezal] = simbolo;
         }
         // Operaciones compuestas
-    
         public bool MoverDerechaHasta(char simbolo)
         {
-            MoverDerecha();
             EstadoActual = $"MoverDerechaHasta {simbolo}";
-            while (Cinta[Cabezal] != '_')
+            while (true)
             {
                 if (Cinta[Cabezal] == simbolo)
                     return true;
+                if (Cabezal == Cinta.Count - 1)
+                    return false;
                 MoverDerecha();
             }
-            return false; 
         }
         public bool MoverIzquierdaHasta(char simbolo)
         {
-            MoverIzquierda();
             EstadoActual = $"MoverIzquierdaHasta {simbolo}";
-            while (Cinta[Cabezal] != '_') 
+            while (true)
             {
                 if (Cinta[Cabezal] == simbolo)
                     return true;
+                if (Cabezal == 0)
+                    return false;
                 MoverIzquierda();
             }
-            return false;
         }
         public bool BuscarPatron(string patron)
         {
@@ -100,32 +99,18 @@ namespace MaquinaDeTuring
             }
             return false;
         }
-        // Agrega esto al final de tu clase Maquina en Maquina.cs
         public void ReemplazarTodo(char buscar, char reemplazo)
         {
             EstadoActual = $"Reemplazando '{buscar}' por '{reemplazo}'";
-            IndicesResaltados.Clear(); // Limpiar brillos viejos
+            IndicesResaltados.Clear(); 
             for (int i = 0; i < Cinta.Count; i++)
             {
                 if (Cinta[i] == buscar)
                 {
                     Cinta[i] = reemplazo;
-                    IndicesResaltados.Add(i); // Guardamos la posición para que tú la pintes
+                    IndicesResaltados.Add(i); 
                 }
             }
-            /*EstadoActual = $"Reemplazando '{buscar}' por '{reemplazo}'";
-            IndicesResaltados.Clear(); // Limpiamos cualquier resaltado anterior
-
-            for (int i = 0; i < Cinta.Count; i++)
-            {
-                if (Cinta[i] == buscar)
-                {
-                    Cinta[i] = reemplazo;
-                    IndicesResaltados.Add(i); // Guardamos la posición exacta del cambio
-                }
-            }*/
         }
-
-
     }
 }
