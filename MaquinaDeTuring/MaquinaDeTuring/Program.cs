@@ -48,9 +48,11 @@ namespace MaquinaDeTuring
                     Console.WriteLine("5. Buscar a la izquierda");
                     Console.WriteLine("6. Buscar patrón");
                     Console.WriteLine("7. Borrar y reemplazar un símbolo");
-                    Console.WriteLine("8. Reiniciar máquina");         
+                    Console.WriteLine("8. Guardar una posición");
+                    Console.WriteLine("9. Moverse a posición guardada");
+                    Console.WriteLine("10. Reiniciar máquina");         
 
-                int opcion = LeerEnteroValido("\nElija una opción (0-8):", 0, 8);
+                int opcion = LeerEnteroValido("\nElija una opción (0-10):", 0, 10);
 
                 switch (opcion)
                     {
@@ -190,6 +192,59 @@ namespace MaquinaDeTuring
                         }
                         break;
                     case 8:
+                        Console.WriteLine("¿Desea Guardar una posición. (s/n)");
+                        string res8 = (Console.ReadLine() ?? "").ToLower();
+                        if (res8 == "s")
+                        {
+                            // Si ya existía una marca antes, la borramos y ponemos un blanco '_'
+                            if (m.Marca != -1)
+                            {
+                                m.Cinta[m.Marca] = '_';
+                            }
+
+                            // Guardamos la nueva posición y ponemos el asterisco
+                            m.Marca = m.Cabezal;
+                            m.Cinta[m.Cabezal] = '*';
+                            m.EstadoActual = "Nueva marca '*' colocada";
+                            break;
+                            /* m.Marca = m.Cabezal; // Guardamos el número del cuadrito actual
+                             m.Cinta[m.Cabezal] = '*'; // Ponemos la marca visual que pediste
+                             m.EstadoActual = "Punto de control guardado con '*'";
+                             break;*/
+                        }
+                        break;
+                    case 9:
+                        Console.WriteLine("¿Desea moverse a la posición guardada. (s/n)");
+                        string res9 = (Console.ReadLine() ?? "").ToLower();
+                        if (res9 == "s")
+                        {
+                            if (m.Marca != -1)
+                            {
+                                m.Cabezal = m.Marca;
+                                m.EstadoActual = "Cabezal regresó al asterisco '*'";
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("\n -> ERROR: No hay ninguna marca '*' en la cinta.");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                            }
+                            break;
+                            /* if (m.Marca != -1)
+                             {
+                                 m.Cabezal = m.Marca; // Saltamos directamente al número guardado
+                                 m.EstadoActual = "Regresando al punto de control";
+                             }
+                             else
+                             {
+                                 Console.WriteLine("No has guardado ninguna posición.");
+                                 Console.ReadKey();
+                             }
+                             break;*/
+                        } 
+                        break;
+                    case 10:
 
                         Console.WriteLine("¿Desea reiniciar la máquina? Se perderán los datos actuales. (s/n)");
                         string res = (Console.ReadLine() ?? "").ToLower();

@@ -10,6 +10,7 @@ namespace MaquinaDeTuring
         public int Cabezal { get; set; }
         public char SimboloGuardado { get; set; }
         public string EstadoActual { get; set; }
+        public int Marca { get; set; } = -1; // -1 significa que no hay nada guardado todavía
 
         public List<int> IndicesResaltados { get; set; } = new List<int>();
 
