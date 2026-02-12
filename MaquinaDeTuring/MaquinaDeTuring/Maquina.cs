@@ -11,6 +11,8 @@ namespace MaquinaDeTuring
         public char SimboloGuardado { get; set; }
         public string EstadoActual { get; set; }
 
+        public List<int> IndicesResaltados { get; set; } = new List<int>();
+
         public int ResaltadoInicio { get; set; }= -1;
         public int ResaltadoFin { get; set; }= -1;
         public Maquina(string cadenaInicial, int posicionInicial)
@@ -98,9 +100,30 @@ namespace MaquinaDeTuring
             }
             return false;
         }
-        public void Borrar()
+        // Agrega esto al final de tu clase Maquina en Maquina.cs
+        public void ReemplazarTodo(char buscar, char reemplazo)
         {
-            Escribir('_');
+            EstadoActual = $"Reemplazando '{buscar}' por '{reemplazo}'";
+            IndicesResaltados.Clear(); // Limpiar brillos viejos
+            for (int i = 0; i < Cinta.Count; i++)
+            {
+                if (Cinta[i] == buscar)
+                {
+                    Cinta[i] = reemplazo;
+                    IndicesResaltados.Add(i); // Guardamos la posición para que tú la pintes
+                }
+            }
+            /*EstadoActual = $"Reemplazando '{buscar}' por '{reemplazo}'";
+            IndicesResaltados.Clear(); // Limpiamos cualquier resaltado anterior
+
+            for (int i = 0; i < Cinta.Count; i++)
+            {
+                if (Cinta[i] == buscar)
+                {
+                    Cinta[i] = reemplazo;
+                    IndicesResaltados.Add(i); // Guardamos la posición exacta del cambio
+                }
+            }*/
         }
 
 

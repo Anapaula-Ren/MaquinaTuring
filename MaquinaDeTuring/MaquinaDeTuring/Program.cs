@@ -43,8 +43,8 @@ namespace MaquinaDeTuring
                     Console.WriteLine("1. Mover Derecha");
                     Console.WriteLine("2. Mover Izquierda");
                     Console.WriteLine("3. Escribir Símbolo");
-                    Console.WriteLine("4. Mover Derecha hasta...");
-                    Console.WriteLine("5. Mover Izquierda hasta...");
+                    Console.WriteLine("4. Buscar a la Derecha");
+                    Console.WriteLine("5. Buscar a la Izquierda");
                     Console.WriteLine("6. Buscar Patrón");
                     Console.WriteLine("7. Borrar");
                     Console.WriteLine("8. Reiniciar Máquina");         
@@ -158,9 +158,28 @@ namespace MaquinaDeTuring
                         string res7 = Console.ReadLine().ToLower();
                         if (res7 == "s")
                         {
-                            m.Borrar();
+                            string letraVieja = LeerEntradaAlfabeto("¿Qué letra quieres buscar en toda la cinta?");
+                            string letraNueva = LeerEntradaAlfabeto($"¿Por qué letra quieres cambiar todas las '{letraVieja}'?");
+
+                            // 2. Ejecutamos el cambio en la lógica (la parte de tu compañera)
+                            // Usamos [0] porque tus métodos devuelven string, pero necesitamos un char
+                            m.ReemplazarTodo(letraVieja[0], letraNueva[0]);
+
+                            // 3. EFECTO VISUAL (Tu especialidad como Front-end)
+                            Console.Clear();
+                            DibujarInterfaz(m); // Aquí ya se verá el brillo verde en las celdas cambiadas
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"\n -> ¡ÉXITO! Se reemplazaron {m.IndicesResaltados.Count} símbolos.");
+                            Console.ResetColor();
+                            Console.WriteLine("Presione cualquier tecla para confirmar y quitar el resaltado...");
+                            Console.ReadKey();
+
+                            // 4. LIMPIEZA: Quitamos las marcas de color para que la cinta vuelva a la normalidad
+                            m.IndicesResaltados.Clear();
                             break;
-                        }break;
+                        }
+                        break;
                     case 8:
 
                             Console.WriteLine("¿Estás seguro de que quieres reiniciar la máquina? Se perderán los datos actuales. (s/n)");
@@ -235,6 +254,37 @@ namespace MaquinaDeTuring
             Console.WriteLine($" ESTADO ACTUAL: {m.EstadoActual}");
             Console.WriteLine("========================================");
 
+            Console.Write(" CINTA: ");
+            // Cambiamos el foreach por un ciclo for para usar el índice 'i'
+            for (int i = 0; i < m.Cinta.Count; i++)
+            {
+                // REGLA DE COLOR: 
+                // Si el índice i está en el rango de búsqueda O en la lista de reemplazo...
+                bool esPatron = (i >= m.ResaltadoInicio && i <= m.ResaltadoFin);
+                bool esCambio = m.IndicesResaltados.Contains(i);
+
+                if (esPatron || esCambio)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green; // ¡Brillo!
+                }
+
+                Console.Write($"[{m.Cinta[i]}] ");
+                Console.ResetColor(); // Siempre reseteamos para no pintar toda la línea
+            }
+            Console.WriteLine();
+
+            // Dibujar el cabezal (flechita)
+            Console.Write("        ");
+            for (int i = 0; i < m.Cabezal; i++) Console.Write("    ");
+            Console.WriteLine("  ^");
+
+            Console.WriteLine($"\n Memoria (Guardado): [{m.SimboloGuardado}]");
+            Console.WriteLine("========================================");
+
+            /*Console.WriteLine("\n========================================");
+            Console.WriteLine($" ESTADO ACTUAL: {m.EstadoActual}");
+            Console.WriteLine("========================================");
+
             // --- AQUÍ ESTÁ EL CAMBIO ---
             Console.Write(" CINTA: ");
             for (int i = 0; i < m.Cinta.Count; i++) // Cambiamos foreach por for
@@ -259,8 +309,8 @@ namespace MaquinaDeTuring
             }
             Console.WriteLine("  ^");
             Console.WriteLine($"\n Memoria (Guardado): [{m.SimboloGuardado}]");
-            Console.WriteLine("========================================");
-            
+            Console.WriteLine("========================================");*/
+
         }
     }
 }
